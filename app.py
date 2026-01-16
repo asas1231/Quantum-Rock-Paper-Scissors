@@ -50,19 +50,6 @@ st.markdown("""
         gap: 5px !important;
     }
 
-    /* 調整大按鈕樣式 */
-    div.stButton > button {
-        width: 100%;
-        height: 80px; /* 稍微縮小高度以適應手機橫排 */
-        font-size: 18px !important; /* 手機字體稍微調小 */
-        font-weight: bold;
-        border-radius: 12px;
-        padding: 0px !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -70,6 +57,7 @@ st.markdown("""
 if 'win_count' not in st.session_state: st.session_state.win_count = 0
 if 'history' not in st.session_state: st.session_state.history = []
 if 'game_over' not in st.session_state: st.session_state.game_over = False
+if 'is_balloon' not in st.session_state: st.session_state.is_balloon = 0
 
 def judge(user, computer):
     if user == computer: return "平手"
@@ -82,6 +70,9 @@ msg_placeholder = st.empty()
 
 if st.session_state.win_count > 0:
     st.subheader(f"🔥 目前連勝：{st.session_state.win_count}")
+    if st.session_state.is_balloon > 0:
+        st.session_state.is_balloon = 0
+        st.balloons()
 else:
     st.subheader("⚔️ 開始挑戰量子電腦！")
 
@@ -106,8 +97,8 @@ if not st.session_state.game_over:
             st.session_state.win_count += 1
             with msg_placeholder.container():
                 st.success(f"🎉 贏了！電腦出：{comp_choice}")
+            # st.balloons()
             st.rerun()
-            st.balloons()
         elif result == "平手":
             with msg_placeholder.container():
                 st.warning(f"🤝 平手！電腦也出：{comp_choice}")
