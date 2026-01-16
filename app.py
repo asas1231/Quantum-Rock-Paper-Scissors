@@ -34,15 +34,6 @@ def get_quantum_move():
 st.set_page_config(page_title="量子猜拳", layout="centered")
 
 # 大按鈕 CSS, 按鈕左右排列
-在手機網頁開發中，當按鈕並排時，最常遇到的問題是 Padding（內邊距） 和 Gap（間距） 撐開了容器。
-
-為了確保三個按鈕「絕對」不超過螢幕寬度，我們需要將 CSS 改為使用 box-sizing: border-box，並對 Streamlit 的欄位容器進行更精確的寬度計算。
-
-請將程式碼中的 CSS 部分替換為以下版本：
-
-優化後的 CSS 程式碼
-Python
-
 st.markdown("""
     <style>
     /* 1. 強制最外層容器不產生橫向滾動條 */
