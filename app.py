@@ -98,13 +98,14 @@ if not st.session_state.game_over:
             with msg_placeholder.container():
                 st.success(f"🎉 贏了！電腦出：{comp_choice}")
             # st.balloons()
+            st.session_state.is_balloon = 1
             st.rerun()
         elif result == "平手":
             with msg_placeholder.container():
                 st.warning(f"🤝 平手！電腦也出：{comp_choice}")
         else:
             st.session_state.history.append({
-                "時間": datetime.now().strftime("%m/%d %H:%M"),
+                "時間": datetime.now().strftime("%m/%d %H:%M:%S"),
                 "連勝紀錄": st.session_state.win_count
             })
             st.session_state.game_over = True
@@ -125,4 +126,5 @@ st.divider()
 st.subheader("📜 歷史榮譽榜")
 if st.session_state.history:
     df = pd.DataFrame(st.session_state.history)
+    df.index += 1
     st.table(df.sort_values(by="連勝紀錄", ascending=False))
