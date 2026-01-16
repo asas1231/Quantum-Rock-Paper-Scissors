@@ -6,17 +6,29 @@ from datetime import datetime
 from qiskit import QuantumCircuit
 from qiskit_aer import Aer  # 注意這裡的改變
 
+# --- 初始化量子後端 ---
+backend = Aer.get_backend('qasm_simulator')
+
 def get_quantum_move():
+    """透過量子電路產生隨機出拳"""
     qc = QuantumCircuit(2, 2)
-    qc.h([0, 1])
+    qc.h([0, 1])  # 施加 Hadamard Gate
     qc.measure([0, 1], [0, 1])
+    
+    # 修正 Qiskit 1.0+ 的執行語法
+    job = backend.run(qc, shots=1) 
+    result = job.result().get_counts()
+    
     while True:
-        job = backend.run(qc, shots=1)
-        result = job.result().get_counts()
-        outcome = list(result.keys())[0]
+        outcome = list(result.keys())[0] 
         mapping = {"00": "石頭", "01": "剪刀", "10": "布"}
+        
         if outcome in mapping:
             return mapping[outcome]
+        else:
+            # 如果抽到 11，重新跑一次電路
+            job = backend.run(qc, shots=1)
+            result = job.result().get_counts()
 
 # --- UI 配置 ---
 st.set_page_config(page_title="量子猜拳", layout="centered")
