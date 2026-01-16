@@ -1,7 +1,10 @@
 import streamlit as st
-from qiskit import QuantumCircuit, Aer, execute
 import pandas as pd
 from datetime import datetime
+
+# 修正後的 Qiskit 引入方式
+from qiskit import QuantumCircuit
+from qiskit_aer import Aer  # 注意這裡的改變
 
 # --- 初始化量子後端 ---
 backend = Aer.get_backend('qasm_simulator')

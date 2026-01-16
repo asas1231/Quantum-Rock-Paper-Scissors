@@ -1,4 +1,4 @@
 streamlit
-qiskit
+qiskit>=1.0.0
 qiskit-aer
 pandas
