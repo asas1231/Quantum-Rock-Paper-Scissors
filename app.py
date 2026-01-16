@@ -108,7 +108,7 @@ if st.session_state.win_count > 0:
             st.session_state.is_balloon = 0
             st.balloons()
             with msg_placeholder.container():
-                st.success(f"恭喜🎉 第 {st.session_state.times} 次出拳, 你出 {loser_rules[st.session_state.comp_choice]} 贏了！電腦出 {st.session_state.comp_choice}")
+                st.success(f"第 {st.session_state.times} 次出拳\n恭喜🎉 你出 {loser_rules[st.session_state.comp_choice]} 贏了！電腦出 {st.session_state.comp_choice}")
 else:
     st.subheader("⚔️ 開始挑戰量子電腦吧！")
 
@@ -140,7 +140,7 @@ if not st.session_state.game_over:
             st.rerun()
         elif result == "平手":
             with msg_placeholder.container():
-                st.warning(f"🤝 平手！電腦也出：{comp_choice}")
+                st.warning(f"🤝 平手！你和量子電腦都出 {comp_choice}")
         else:
             st.session_state.history.append({
                 "時間": datetime.now().strftime("%m/%d %H:%M:%S"),
@@ -154,7 +154,7 @@ if not st.session_state.game_over:
 else:
     # 失敗畫面：按鈕已隱藏
     with msg_placeholder.container():
-        st.error(f"💀 輸了！第 {st.session_state.times} 次出拳, 你出 {loser_rules[st.session_state.comp_choice]} 贏了！電腦出 {st.session_state.comp_choice}")
+        st.error(f"第 {st.session_state.times} 次出拳\n💀 輸了！ 你出 {loser_rules[st.session_state.comp_choice]} 贏了！電腦出 {st.session_state.comp_choice}")
     win_count_state = ""
     if st.session_state.win_count >= 21:
         win_count_state = "太神了! 看來你以拳證道稱霸此時空了🎉 "
