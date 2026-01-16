@@ -86,6 +86,7 @@ if 'win_count' not in st.session_state: st.session_state.win_count = 0
 if 'history' not in st.session_state: st.session_state.history = []
 if 'game_over' not in st.session_state: st.session_state.game_over = False
 if 'is_balloon' not in st.session_state: st.session_state.is_balloon = 0
+if 'comp_choice' not in st.session_state: st.session_state.comp_choice = ""
 
 def judge(user, computer):
     if user == computer: return "平手"
@@ -102,7 +103,7 @@ if st.session_state.win_count > 0:
         st.session_state.is_balloon = 0
         st.balloons()
         with msg_placeholder.container():
-            st.success(f"🎉 贏了！電腦出：{comp_choice}")
+            st.success(f"🎉 贏了！電腦出：{st.session_state.comp_choice}")
 else:
     st.subheader("⚔️ 開始挑戰量子電腦！")
 
@@ -128,6 +129,7 @@ if not st.session_state.game_over:
             #with msg_placeholder.container():
             #    st.success(f"🎉 贏了！電腦出：{comp_choice}")
             # st.balloons()
+            st.session_state.comp_choice = comp_choice
             st.session_state.is_balloon = 1
             st.rerun()
         elif result == "平手":
