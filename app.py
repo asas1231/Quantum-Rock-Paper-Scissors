@@ -34,22 +34,60 @@ def get_quantum_move():
 st.set_page_config(page_title="量子猜拳", layout="centered")
 
 # 大按鈕 CSS, 按鈕左右排列
+在手機網頁開發中，當按鈕並排時，最常遇到的問題是 Padding（內邊距） 和 Gap（間距） 撐開了容器。
+
+為了確保三個按鈕「絕對」不超過螢幕寬度，我們需要將 CSS 改為使用 box-sizing: border-box，並對 Streamlit 的欄位容器進行更精確的寬度計算。
+
+請將程式碼中的 CSS 部分替換為以下版本：
+
+優化後的 CSS 程式碼
+Python
+
 st.markdown("""
     <style>
-    /* 強制讓 columns 在手機上不換行，保持左右並排 */
-    [data-testid="column"] {
-        width: calc(33% - 1rem) !important;
-        flex: 1 1 calc(33% - 1rem) !important;
-        min-width: 30% !important;
+    /* 1. 強制最外層容器不產生橫向滾動條 */
+    .main .block-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        max-width: 100% !important;
     }
-    
+
+    /* 2. 強制水平排列並鎖定寬度 */
     div[data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
-        gap: 5px !important;
+        width: 100% !important;
+        gap: 8px !important; /* 設定按鈕間距 */
     }
 
+    /* 3. 精確計算每個欄位的寬度 (扣除 gap) */
+    div[data-testid="column"] {
+        width: calc(33.33% - 5.33px) !important; /* 100%/3 減去 gap 的分擔 */
+        flex: 0 0 auto !important;
+        min-width: 0px !important; /* 允許縮小，防止撐開 */
+    }
+
+    /* 4. 按鈕樣式優化 */
+    div.stButton > button {
+        width: 100% !important;
+        height: 70px !important; /* 稍微降低高度，視覺更協調 */
+        font-size: 16px !important;
+        font-weight: bold;
+        padding: 0px !important;
+        margin: 0px !important;
+        border-radius: 10px;
+        white-space: pre-line; /* 允許 emoji 與文字換行 */
+        line-height: 1.2;
+    }
+    
+    /* 5. 針對手機螢幕的小調整 */
+    @media (max-width: 480px) {
+        div.stButton > button {
+            font-size: 14px !important;
+            height: 60px !important;
+        }
+    }
     </style>
     """, unsafe_allow_html=True)
 
