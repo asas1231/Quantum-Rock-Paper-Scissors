@@ -96,19 +96,19 @@ def judge(user, computer):
 
 # --- 遊戲畫面開始 ---
 st.title("🌌 量子猜拳")
-#以拳法的動作和理論為載體，去驗證和體悟「道」的真諦
+st.write("💪 以拳法的動作和理論為載體，去驗證和體悟「道」的真諦 👊")
 msg_placeholder = st.empty()
 
 loser_rules = {"石頭": "布", "剪刀": "石頭", "布": "剪刀"}
 
 if st.session_state.win_count > 0:
     if st.session_state.game_over == False:
-        st.subheader(f"🔥 目前已經連勝 {st.session_state.win_count} 次!!!")
+        st.subheader(f"🔥 目前已經連勝 {st.session_state.win_count} 次!!! 🔥")
         if st.session_state.is_balloon > 0:
             st.session_state.is_balloon = 0
             st.balloons()
             with msg_placeholder.container():
-                st.success(f"第 {st.session_state.times} 次出拳\n恭喜🎉 你出 {loser_rules[st.session_state.comp_choice]} 贏了！電腦出 {st.session_state.comp_choice}")
+                st.success(f"第 {st.session_state.times} 次出拳\n\n恭喜🎉 你出 {loser_rules[st.session_state.comp_choice]} 贏了！電腦出 {st.session_state.comp_choice}")
 else:
     st.subheader("⚔️ 開始挑戰量子電腦吧！")
 
@@ -154,7 +154,7 @@ if not st.session_state.game_over:
 else:
     # 失敗畫面：按鈕已隱藏
     with msg_placeholder.container():
-        st.error(f"第 {st.session_state.times} 次出拳\n💀 輸了！ 你出 {loser_rules[st.session_state.comp_choice]} 贏了！電腦出 {st.session_state.comp_choice}")
+        st.error(f"第 {st.session_state.times} 次出拳\n\n💀 輸了！ 你出 {loser_rules[st.session_state.comp_choice]} 贏了！電腦出 {st.session_state.comp_choice}")
     win_count_state = ""
     if st.session_state.win_count >= 21:
         win_count_state = "太神了! 看來你以拳證道稱霸此時空了🎉 "
@@ -170,7 +170,7 @@ else:
         win_count_state = "還可以, 不到一天就突破至煉氣期🎉 "
     elif st.session_state.win_count == 0:
         win_count_state = "看你這根骨, 還是饕餮之道比較適合你😋 "
-    st.error(f"{win_count_state}此回合猜拳連勝量子電腦 {st.session_state.win_count} 次")
+    st.error(f"{win_count_state}\n\n此回合猜拳連勝量子電腦 {st.session_state.win_count} 次")
     if st.button("🔄 重新開始新賽局", use_container_width=True):
         st.session_state.win_count = 0
         st.session_state.game_over = False
