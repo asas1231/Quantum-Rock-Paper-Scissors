@@ -173,7 +173,7 @@ else:
     elif st.session_state.win_count == 0:
         win_count_state = "看你這根骨, 還是饕餮之道比較適合你😋 "
     st.error(f"{win_count_state}\n\n此回合猜拳連勝量子電腦 {st.session_state.win_count} 次")
-    if st.button("🔄 重新開始新的時空\n\n再次和量子電腦較勁一輪吧", use_container_width=True):
+    if st.button("🔄 重新開始新的時空 🔄\n\n再次和量子電腦較勁一輪吧", use_container_width=True):
         st.session_state.win_count = 0
         st.session_state.game_over = False
         st.rerun()
