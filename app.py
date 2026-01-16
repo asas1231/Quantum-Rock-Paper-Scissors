@@ -33,14 +33,35 @@ def get_quantum_move():
 # --- UI 配置 ---
 st.set_page_config(page_title="量子猜拳", layout="centered")
 
-# 大按鈕 CSS
+# 大按鈕 CSS, 按鈕左右排列
 st.markdown("""
     <style>
+    /* 強制讓 columns 在手機上不換行，保持左右並排 */
+    [data-testid="column"] {
+        width: calc(33% - 1rem) !important;
+        flex: 1 1 calc(33% - 1rem) !important;
+        min-width: 30% !important;
+    }
+    
+    div[data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 5px !important;
+    }
+
+    /* 調整大按鈕樣式 */
     div.stButton > button {
         width: 100%;
-        height: 100px;
-        font-size: 24px !important;
-        border-radius: 15px;
+        height: 80px; /* 稍微縮小高度以適應手機橫排 */
+        font-size: 18px !important; /* 手機字體稍微調小 */
+        font-weight: bold;
+        border-radius: 12px;
+        padding: 0px !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -56,19 +77,20 @@ def judge(user, computer):
     return "勝利" if winning_rules[user] == computer else "失敗"
 
 # --- 遊戲畫面開始 ---
-st.title("🌌 量子隨機猜拳戰")
-msg_placeholder = st.empty()  # 訊息預留區
+st.title("🌌 量子隨機猜拳")
+msg_placeholder = st.empty() 
 
-# 顯示目前分數
 if st.session_state.win_count > 0:
     st.subheader(f"🔥 目前連勝：{st.session_state.win_count}")
 else:
-    st.subheader("⚔️ 開始挑戰量子電腦吧！")
+    st.subheader("⚔️ 開始挑戰量子電腦！")
 
-# 核心邏輯：如果遊戲還沒結束，顯示出拳按鈕
+# 如果遊戲還沒結束，顯示出拳按鈕
 if not st.session_state.game_over:
+    # 這裡的 columns 在手機上會被上面的 CSS 強制水平排列
     col1, col2, col3 = st.columns(3)
     user_choice = None
+    
     with col1:
         if st.button("🪨\n石頭"): user_choice = "石頭"
     with col2:
@@ -83,14 +105,13 @@ if not st.session_state.game_over:
         if result == "勝利":
             st.session_state.win_count += 1
             with msg_placeholder.container():
-                st.success(f"🎉 你贏了！電腦出：{comp_choice}")
+                st.success(f"🎉 贏了！電腦出：{comp_choice}")
+            st.rerun()
             st.balloons()
-            st.rerun() # 立即重新整理以更新上方連勝數字
         elif result == "平手":
             with msg_placeholder.container():
                 st.warning(f"🤝 平手！電腦也出：{comp_choice}")
         else:
-            # 輸掉的處理
             st.session_state.history.append({
                 "時間": datetime.now().strftime("%m/%d %H:%M"),
                 "連勝紀錄": st.session_state.win_count
@@ -98,11 +119,11 @@ if not st.session_state.game_over:
             st.session_state.game_over = True
             with msg_placeholder.container():
                 st.error(f"💀 輸了！電腦出：{comp_choice}")
-            st.rerun() # 立即重新整理以隱藏按鈕
+            st.rerun()
 
-# 如果遊戲結束，顯示結算畫面與重新開始按鈕
 else:
-    st.error(f"遊戲結束！最終連勝紀錄為： {st.session_state.win_count}")
+    # 失敗畫面：按鈕已隱藏
+    st.error(f"最終連勝： {st.session_state.win_count}")
     if st.button("🔄 重新開始新賽局", use_container_width=True):
         st.session_state.win_count = 0
         st.session_state.game_over = False
