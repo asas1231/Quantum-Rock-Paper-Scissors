@@ -36,47 +36,50 @@ st.set_page_config(page_title="量子猜拳", layout="centered")
 # 大按鈕 CSS, 按鈕左右排列
 st.markdown("""
     <style>
-    /* 1. 強制最外層容器不產生橫向滾動條 */
-    .main .block-container {
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-        max-width: 100% !important;
+    /* 1. 移除 Streamlit 區塊之間的預設垂直間距 */
+    [data-testid="stVerticalBlock"] {
+        gap: 0px !important;
     }
 
-    /* 2. 強制水平排列並鎖定寬度 */
+    /* 2. 強制水平容器寬度 100% 且完全移除內部間距 */
     div[data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
-        flex-wrap: nowrap !important;
         width: 100% !important;
-        gap: 8px !important; /* 設定按鈕間距 */
+        gap: 4px !important; /* 這是按鈕間唯一的間隔，可設為 0px 或 4px */
+        padding: 0px !important;
     }
 
-    /* 3. 精確計算每個欄位的寬度 (扣除 gap) */
+    /* 3. 移除每一個 Column 的預設間距 */
     div[data-testid="column"] {
-        width: calc(33.33% - 5.33px) !important; /* 100%/3 減去 gap 的分擔 */
-        flex: 0 0 auto !important;
-        min-width: 0px !important; /* 允許縮小，防止撐開 */
-    }
-
-    /* 4. 按鈕樣式優化 */
-    div.stButton > button {
-        width: 100% !important;
-        height: 70px !important; /* 稍微降低高度，視覺更協調 */
-        font-size: 16px !important;
-        font-weight: bold;
         padding: 0px !important;
         margin: 0px !important;
-        border-radius: 10px;
-        white-space: pre-line; /* 允許 emoji 與文字換行 */
-        line-height: 1.2;
+        width: calc(33.33% - 2.66px) !important; /* 精確計算，確保不爆版 */
+        flex: 1 1 auto !important;
+        min-width: 0px !important;
     }
-    
-    /* 5. 針對手機螢幕的小調整 */
+
+    /* 4. 按鈕外框修正，移除不必要的 Margin */
+    div.stButton {
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+
+    div.stButton > button {
+        width: 100% !important;
+        height: 70px !important;
+        font-size: 18px !important;
+        margin: 0px !important;
+        border-radius: 8px;
+        /* 增加邊框讓按鈕界線明顯（因為留白去除了） */
+        border: 1px solid #ddd !important;
+    }
+
+    /* 手機版微調 */
     @media (max-width: 480px) {
         div.stButton > button {
-            font-size: 14px !important;
             height: 60px !important;
+            font-size: 16px !important;
         }
     }
     </style>
