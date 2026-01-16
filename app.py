@@ -101,6 +101,8 @@ if st.session_state.win_count > 0:
     if st.session_state.is_balloon > 0:
         st.session_state.is_balloon = 0
         st.balloons()
+        with msg_placeholder.container():
+            st.success(f"🎉 贏了！電腦出：{comp_choice}")
 else:
     st.subheader("⚔️ 開始挑戰量子電腦！")
 
@@ -123,8 +125,8 @@ if not st.session_state.game_over:
         
         if result == "勝利":
             st.session_state.win_count += 1
-            with msg_placeholder.container():
-                st.success(f"🎉 贏了！電腦出：{comp_choice}")
+            #with msg_placeholder.container():
+            #    st.success(f"🎉 贏了！電腦出：{comp_choice}")
             # st.balloons()
             st.session_state.is_balloon = 1
             st.rerun()
