@@ -1,3 +1,11 @@
+import streamlit as st
+import pandas as pd
+from datetime import datetime
+
+# 修正後的 Qiskit 引入方式
+from qiskit import QuantumCircuit
+from qiskit_aer import Aer  # 注意這裡的改變
+
 def get_quantum_move():
     qc = QuantumCircuit(2, 2)
     qc.h([0, 1])
