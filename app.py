@@ -62,50 +62,51 @@ def judge(user, computer):
 
 # --- 遊戲邏輯與 UI ---
 
-# 1. 建立訊息預留區 (確保訊息出現在按鈕上方)
+# 1. 建立訊息預留區 (出現在最上方)
 msg_placeholder = st.empty()
 
-if not st.session_state.game_over:
-    st.subheader(f"目前連勝次數： {st.session_state.win_count}")
-    
-    # 2. 按鈕並排佈局
-    col1, col2, col3 = st.columns(3)
-    user_choice = None
-    
-    with col1:
-        if st.button("🪨\n石頭"): user_choice = "石頭"
-    with col2:
-        if st.button("✂️\n剪刀"): user_choice = "剪刀"
-    with col3:
-        if st.button("📄\n布"): user_choice = "布"
+# 2. 先處理點擊邏輯，再顯示連勝次數
+user_choice = None
+col1, col2, col3 = st.columns(3)
+with col1:
+    if st.button("🪨\n石頭"): user_choice = "石頭"
+with col2:
+    if st.button("✂️\n剪刀"): user_choice = "剪刀"
+with col3:
+    if st.button("📄\n布"): user_choice = "布"
 
-    if user_choice:
-        comp_choice = get_quantum_move()
-        result = judge(user_choice, comp_choice)
-        
-        # 將結果顯示在預留區
-        with msg_placeholder.container():
-            st.info(f"你出：{user_choice} | 量子電腦出：{comp_choice}")
-            if result == "勝利":
-                st.success("🎉 你贏了！量子態站在你這邊！")
-                st.session_state.win_count += 1
-                st.subheader(f"目前連勝次數： {st.session_state.win_count}")
-                st.balloons()
-            elif result == "平手":
-                st.warning("🤝 平手！再試一次。")
-            else:
-                st.error("💀 你輸了！遊戲結束。")
-                st.session_state.history.append({
-                    "時間": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "連勝紀錄": st.session_state.win_count
-                })
-                st.session_state.game_over = True
-                # 注意：這裡不立刻 rerun，讓玩家看清楚最後一球
-                if st.button("點擊確認結果"): st.rerun()
+# --- 核心邏輯處理 ---
+if user_choice and not st.session_state.game_over:
+    comp_choice = get_quantum_move()
+    result = judge(user_choice, comp_choice)
+    
+    # 立即更新數值
+    if result == "勝利":
+        st.session_state.win_count += 1
+        # 這裡不需要 rerun，因為下面緊接著就會讀取新的 win_count
+    elif result == "失敗":
+        st.session_state.history.append({
+            "時間": datetime.now().strftime("%m/%d %H:%M"),
+            "連勝紀錄": st.session_state.win_count
+        })
+        st.session_state.game_over = True
 
-else:
-    st.error(f"遊戲結束！最終連勝：{st.session_state.win_count}")
-    if st.button("🔄 重新開始挑戰", use_container_width=True):
+    # 將結果訊息塞入預留區
+    with msg_placeholder.container():
+        if result == "勝利":
+            st.success(f"🎉 贏了！電腦出：{comp_choice}")
+            st.balloons()
+        elif result == "平手":
+            st.warning(f"🤝 平手！電腦也出：{comp_choice}")
+        else:
+            st.error(f"💀 輸了！電腦出：{comp_choice}")
+
+# 3. 顯示連勝次數 (因為邏輯在前，這裡顯示的永遠是最新的值)
+st.subheader(f"🔥 目前連勝： {st.session_state.win_count}")
+
+# 4. 如果遊戲結束，顯示重新開始按鈕
+if st.session_state.game_over:
+    if st.button("🔄 挑戰失敗！重新開始", use_container_width=True):
         st.session_state.win_count = 0
         st.session_state.game_over = False
         st.rerun()
