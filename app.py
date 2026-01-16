@@ -168,7 +168,7 @@ else:
         win_count_state = "看來悟到了些皮毛🎉 "
     elif st.session_state.win_count >= 1:
         win_count_state = "還可以, 不到一天就突破至煉氣期🎉 "
-    elif st.session_state.win_count = 0:
+    elif st.session_state.win_count == 0:
         win_count_state = "看你這根骨, 還是饕餮之道比較適合你😋 "
     st.error(f"{win_count_state}此回合猜拳連勝量子電腦 {st.session_state.win_count} 次")
     if st.button("🔄 重新開始新賽局", use_container_width=True):
