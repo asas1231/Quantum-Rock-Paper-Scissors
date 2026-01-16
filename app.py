@@ -94,16 +94,17 @@ def judge(user, computer):
     return "勝利" if winning_rules[user] == computer else "失敗"
 
 # --- 遊戲畫面開始 ---
-st.title("🌌 量子隨機猜拳")
+st.title("🌌 量子猜拳")
 msg_placeholder = st.empty() 
 
 if st.session_state.win_count > 0:
-    st.subheader(f"🔥 目前連勝：{st.session_state.win_count}")
-    if st.session_state.is_balloon > 0:
-        st.session_state.is_balloon = 0
-        st.balloons()
-        with msg_placeholder.container():
-            st.success(f"🎉 贏了！電腦出：{st.session_state.comp_choice}")
+    if st.session_state.game_over == False:
+        st.subheader(f"🔥 目前連勝：{st.session_state.win_count}")
+        if st.session_state.is_balloon > 0:
+            st.session_state.is_balloon = 0
+            st.balloons()
+            with msg_placeholder.container():
+                st.success(f"🎉 贏了！電腦出：{st.session_state.comp_choice}")
 else:
     st.subheader("⚔️ 開始挑戰量子電腦！")
 
