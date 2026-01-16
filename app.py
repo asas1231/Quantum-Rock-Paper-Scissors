@@ -36,17 +36,13 @@ st.set_page_config(page_title="量子猜拳", layout="centered")
 # 大按鈕 CSS, 按鈕左右排列
 st.markdown("""
     <style>
-    /* 1. 移除 Streamlit 區塊之間的預設垂直間距 */
-    [data-testid="stVerticalBlock"] {
-        gap: 0px !important;
-    }
 
     /* 2. 強制水平容器寬度 100% 且完全移除內部間距 */
     div[data-testid="stHorizontalBlock"] {
         display: flex !important;
         flex-direction: row !important;
         width: 100% !important;
-        gap: 4px !important; /* 這是按鈕間唯一的間隔，可設為 0px 或 4px */
+        gap: 0px !important; /* 這是按鈕間唯一的間隔，可設為 0px 或 4px */
         padding: 0px !important;
     }
 
