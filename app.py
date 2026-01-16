@@ -110,7 +110,8 @@ if st.session_state.win_count > 0:
             with msg_placeholder.container():
                 st.success(f"第 {st.session_state.times} 次出拳\n\n恭喜🎉 你出拳 {loser_rules[st.session_state.comp_choice]} 贏了！量子電腦出拳 {st.session_state.comp_choice}")
 else:
-    st.subheader("⚔️ 開始挑戰量子電腦吧！")
+    if st.session_state.game_over == False:
+        st.subheader("⚔️ 開始挑戰量子電腦吧！")
 
 # 如果遊戲還沒結束，顯示出拳按鈕
 if not st.session_state.game_over:
@@ -172,7 +173,7 @@ else:
     elif st.session_state.win_count == 0:
         win_count_state = "看你這根骨, 還是饕餮之道比較適合你😋 "
     st.error(f"{win_count_state}\n\n此回合猜拳連勝量子電腦 {st.session_state.win_count} 次")
-    if st.button("🔄 重新開始新的時空和量子電腦再次較勁一輪吧", use_container_width=True):
+    if st.button("🔄 重新開始新的時空\n\n再次和量子電腦較勁一輪吧", use_container_width=True):
         st.session_state.win_count = 0
         st.session_state.game_over = False
         st.rerun()
