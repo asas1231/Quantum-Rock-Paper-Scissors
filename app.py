@@ -96,7 +96,7 @@ def judge(user, computer):
 
 # --- 遊戲畫面開始 ---
 st.title("🌌 量子猜拳")
-st.write("💪 以拳法的動作和理論為載體，去驗證和體悟「道」的真諦 👊")
+st.write("💪 以拳法的動作和理論為載體，去驗證和體悟「道」的真諦吧 👊")
 msg_placeholder = st.empty()
 
 loser_rules = {"石頭": "布", "剪刀": "石頭", "布": "剪刀"}
@@ -108,7 +108,7 @@ if st.session_state.win_count > 0:
             st.session_state.is_balloon = 0
             st.balloons()
             with msg_placeholder.container():
-                st.success(f"第 {st.session_state.times} 次出拳\n\n恭喜🎉 你出 {loser_rules[st.session_state.comp_choice]} 贏了！電腦出 {st.session_state.comp_choice}")
+                st.success(f"第 {st.session_state.times} 次出拳\n\n恭喜🎉 你出拳 {loser_rules[st.session_state.comp_choice]} 贏了！量子電腦出拳 {st.session_state.comp_choice}")
 else:
     st.subheader("⚔️ 開始挑戰量子電腦吧！")
 
@@ -140,7 +140,7 @@ if not st.session_state.game_over:
             st.rerun()
         elif result == "平手":
             with msg_placeholder.container():
-                st.warning(f"🤝 平手！你和量子電腦都出 {comp_choice}")
+                st.warning(f"平手🤝 你和量子電腦都出拳 {comp_choice}")
         else:
             st.session_state.history.append({
                 "時間": datetime.now().strftime("%m/%d %H:%M:%S"),
@@ -148,13 +148,14 @@ if not st.session_state.game_over:
             })
             st.session_state.game_over = True
             with msg_placeholder.container():
-                st.error(f"💀 輸了！電腦出：{comp_choice}")
+                st.error(f"輸了💀 量子電腦出拳 {comp_choice}")
             st.rerun()
 
 else:
     # 失敗畫面：按鈕已隱藏
     with msg_placeholder.container():
-        st.error(f"第 {st.session_state.times} 次出拳\n\n💀 輸了！ 你出 {loser_rules[st.session_state.comp_choice]} 贏了！電腦出 {st.session_state.comp_choice}")
+        st.error(f"第 {st.session_state.times} 次出拳\n\n輸了💀 你出拳 {loser_rules[st.session_state.comp_choice]} 贏了！量子電腦出拳 {st.session_state.comp_choice}")
+    st.session_state.times = 0
     win_count_state = ""
     if st.session_state.win_count >= 21:
         win_count_state = "太神了! 看來你以拳證道稱霸此時空了🎉 "
@@ -171,14 +172,14 @@ else:
     elif st.session_state.win_count == 0:
         win_count_state = "看你這根骨, 還是饕餮之道比較適合你😋 "
     st.error(f"{win_count_state}\n\n此回合猜拳連勝量子電腦 {st.session_state.win_count} 次")
-    if st.button("🔄 重新開始新賽局", use_container_width=True):
+    if st.button("🔄 重新開始新的時空和量子電腦再次較勁一輪吧", use_container_width=True):
         st.session_state.win_count = 0
         st.session_state.game_over = False
         st.rerun()
 
 # --- 歷史紀錄 ---
 st.divider()
-st.subheader("📜 歷史榮譽榜")
+st.subheader("📜 星橋管理局 - 記憶水晶")
 if st.session_state.history:
     df = pd.DataFrame(st.session_state.history)
     df.index += 1
