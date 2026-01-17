@@ -12,7 +12,17 @@ def get_quantum_move():
     # input: 無
     # output: 字串 ("石頭", "剪刀", "布")
     qc = QuantumCircuit(2, 2)
-    qc.h([0, 1])
+    theta = 2 * np.arccos(np.sqrt(2/3))
+    
+    # 1. 第一個位元旋轉
+    qc.ry(theta, 0)
+    
+    # 2. 受控 Hadamard：如果位元 0 是 |0>，則對位元 1 做 H (平分 2/3 為兩個 1/3)
+    # 注意：這裡邏輯是當 0 為 '0' 時動作，通常用 ch 門處理 1，故先做 X 門切換
+    qc.x(0)
+    qc.ch(0, 1)
+    qc.x(0)
+    
     qc.measure([0, 1], [0, 1])
     
     job = backend.run(qc, shots=1)
