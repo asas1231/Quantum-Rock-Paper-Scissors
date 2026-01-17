@@ -202,8 +202,10 @@ if not st.session_state.game_over:
             st.rerun()
             
         else: # 失敗
+            # 定義 +8 時區
+            tz_utc8 = timezone(timedelta(hours=8))
             st.session_state.history.append({
-                "時間": datetime.now().strftime("%m/%d %H:%M:%S"),
+                "時間": datetime.now( tz_utc8 ).strftime("%m/%d %H:%M:%S"),
                 "連勝": st.session_state.win_count,
             })
             st.session_state.game_over = True
