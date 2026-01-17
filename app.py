@@ -119,6 +119,8 @@ if 'game_over' not in st.session_state: st.session_state.game_over = False
 if 'times' not in st.session_state: st.session_state.times = 0
 if 'last_result' not in st.session_state: st.session_state.last_result = None 
 if 'comp_choice' not in st.session_state: st.session_state.comp_choice = ""
+if 'is_balloon' not in st.session_state: st.session_state.is_balloon = 0
+
 
 # --- 輔助邏輯字典 ---
 loser_rules = {"石頭": "布", "剪刀": "石頭", "布": "剪刀"}
@@ -144,6 +146,10 @@ else:
     # 戰鬥進行狀態：顯示當前回合
     st.markdown(f"### 第 {st.session_state.times + 1} 回合 | 連勝：{st.session_state.win_count} 次")
     st.markdown("挑戰完成可以兌換小禮物🎁")
+    if st.session_state.is_balloon > 0:
+        st.session_state.is_balloon = 0
+        if st.session_state.win_count >= 5:
+            st.balloons()
 
 # --- 狀態儀表板 (Dashboard) ---
 # 使用 st.info/success/error 區塊作為狀態顯示，在手機上非常清晰
@@ -189,7 +195,7 @@ if not st.session_state.game_over:
 
         if result == "勝利":
             st.session_state.win_count += 1
-            st.balloons()
+            st.session_state.is_balloon = 1
             st.rerun()
             
         elif result == "平手":
