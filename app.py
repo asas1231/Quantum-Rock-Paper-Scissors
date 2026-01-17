@@ -233,7 +233,9 @@ if st.session_state.history:
     df = pd.DataFrame(st.session_state.history)
     # 使用 st.dataframe 並隱藏索引，比 table 更適合手機閱讀
     st.dataframe(
-        df.sort_index(ascending=False), 
+        df.sort_values(by="連勝紀錄", ascending=False), 
         use_container_width=True,
         hide_index=True
     )
+else:
+    st.write("尚無紀錄，開始你的第一場戰鬥吧！")
