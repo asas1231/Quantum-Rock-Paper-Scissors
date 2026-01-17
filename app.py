@@ -216,7 +216,7 @@ else:
     elif wc >= 1: win_count_state = "還可以，不到一天就突破至煉氣期🎉"
     elif wc == 0: win_count_state = "看你這根骨，還是饕餮之道比較適合你😋"
         
-    st.error(f"{win_count_state}") # f"{win_count_state}\n\n此回合連勝 {wc} 次"
+    st.success(f"{win_count_state}") # f"{win_count_state}\n\n此回合連勝 {wc} 次"
     
     if st.button("🔄 重新開始新的時空 🔄\n\n再次和量子電腦較勁一輪吧", use_container_width=True):
         st.session_state.win_count = 0
